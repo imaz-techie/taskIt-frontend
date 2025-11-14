@@ -11,6 +11,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../../redux/slice/userSlice"
+import { signInApi } from "../../api/actions/authActions"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -23,55 +24,32 @@ const Login = () => {
 
   const { loading } = useSelector((state) => state.user)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+const handleSubmit = async (e) => {
+  console.log("test")
+  e.preventDefault()
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address")
-      return
-    }
+  if (!validateEmail(email)) return setError("Please enter a valid email")
+  if (!password) return setError("Please enter the password")
+  setError(null)
 
-    if (!password) {
-      setError("Please enter the password")
-      return
-    }
+  dispatch(signInStart())
 
-    setError(null)
+  const { data, error } = await signInApi({ email, password })
 
-    // Login API call
-    try {
-      dispatch(signInStart())
-
-      const response = await axiosInstance.post(
-        "/auth/sign-in",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-
-      // console.log(response.data)
-
-      if (response.data.role === "admin") {
-        dispatch(signInSuccess(response.data))
-        navigate("/admin/dashboard")
-      } else {
-        dispatch(signInSuccess(response.data))
-        navigate("/user/dashboard")
-      }
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        setError(error.response.data.message)
-        dispatch(signInFailure(error.response.data.message))
-      } else {
-        setError("Something went wrong. Please try again!")
-        dispatch(signInFailure("Something went wrong. Please try again!"))
-      }
-    }
+  if (error) {
+    setError(error)
+    dispatch(signInFailure(error))
+    return
   }
+
+  dispatch(signInSuccess(data))
+
+  if (data.role === "admin") {
+    navigate("/admin/dashboard")
+  } else {
+    navigate("/user/dashboard")
+  }
+}
 
   return (
     <AuthLayout>

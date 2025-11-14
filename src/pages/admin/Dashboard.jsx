@@ -209,7 +209,7 @@ const Dashboard = () => {
       const response = await axiosInstance.get("/tasks/dashboard-data")
 
       if (response.data) {
-        setDashboardData(response.data)
+        setDashboardData(response.data) 
         prepareChartData(response.data?.charts || null)
       }
     } catch (error) {
