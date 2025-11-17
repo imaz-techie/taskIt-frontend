@@ -173,7 +173,7 @@ import RecentTasks from "../../components/RecentTasks"
 import CustomPieChart from "../../components/CustomPieChart"
 import CustomBarChart from "../../components/CustomBarChart"
 
-const COLORS = ["#FF6384", "#36A2EB", "#FFCE56"]
+const COLORS = ["#FF6384", "#f9cb9c", "#a64d79"]
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -234,7 +234,7 @@ const Dashboard = () => {
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="space-y-2">
               <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                Welcome back, {currentUser?.name}! 👋
+                Welcome back, {currentUser?.name}! 
               </h2>
               <p className="text-indigo-100 text-lg font-medium">
                 {moment().format("dddd, MMMM Do YYYY")}
@@ -365,9 +365,10 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="h-64 flex items-center justify-center">
-              <CustomBarChart data={barChartData} />
-            </div>
+           <div className="h-72 w-full">
+  <CustomBarChart data={barChartData} />
+</div>
+
           </div>
         </div>
 

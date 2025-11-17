@@ -48,48 +48,63 @@ const SideMenu = ({ activeMenu }) => {
     return () => {}
   }, [currentUser])
 
-  return (
-    <div className="w-64 p-6 h-full flex flex-col lg:border-r lg:border-gray-200">
-      <div className="flex flex-col items-center mb-8">
-        <div className="w-20 h-20 rounded-full bg-gray-100 overflow-hidden mb-4 border-2 border-blue-200">
-          <img
-            src={currentUser?.profileImageUrl || userImage }
-            alt="Profile Image"
-            className="w-full h-full object-cover"
-          />
+ return (
+  <div className="w-64 p-6 h-full flex flex-col bg-white border-r border-gray-200 shadow-sm">
+    {/* Profile Section */}
+    <div className="flex flex-col items-center mb-8">
+      <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden mb-4 border-2 border-blue-300 shadow-md transition-all duration-300 hover:scale-105">
+        <img
+          src={currentUser?.profileImageUrl || userImage}
+          alt="Profile Image"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {currentUser?.role === "admin" && (
+        <div className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2 shadow-sm">
+          Admin
         </div>
+      )}
 
-        {currentUser?.role === "admin" && (
-          <div className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
-            Admin
-          </div>
-        )}
+      <h5 className="text-lg font-semibold text-gray-800 tracking-wide">
+        {currentUser?.name || ""}
+      </h5>
 
-        <h5 className="text-lg font-semibold text-gray-800">
-          {currentUser?.name || ""}
-        </h5>
-
-        <p className="text-sm text-gray-500">{currentUser?.email || ""}</p>
-      </div>
-
-      <div className="flex-1 overscroll-y-auto">
-        {SideMenuData.map((item, index) => (
-          <button
-            key={`menu_${index}`}
-            className={`w-full flex items-center gap-4 text-[15px] ${
-              activeMenu === item.label
-                ? "text-blue-500 bg-linear-to-r from-blue-50/40 to-blue-100/50"
-                : ""
-            } py-3 px-6 mb-3 cursor-pointer`}
-            onClick={() => handleClick(item.path)}
-          >
-            <item.icon className="text-2xl" />
-            {item.label}
-          </button>
-        ))}
-      </div>
+      <p className="text-sm text-gray-500">{currentUser?.email || ""}</p>
     </div>
-  )
+
+    {/* Menu Section */}
+    <div className="flex-1 overflow-y-auto space-y-2">
+      {SideMenuData.map((item, index) => (
+        <button
+          key={`menu_${index}`}
+          onClick={() => handleClick(item.path)}
+          className={`
+            w-full flex items-center gap-4 text-[15px] font-medium px-5 py-3 rounded-lg
+            transition-all duration-300 ease-in-out
+            ${
+              activeMenu === item.label
+                ? "bg-blue-100 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-sm"
+                : "text-gray-600 hover:bg-gray-100 hover:shadow-sm hover:text-gray-900"
+            }
+          `}
+        >
+          <item.icon
+            className={`
+              text-xl transition-all duration-300
+              ${
+                activeMenu === item.label
+                  ? "text-blue-600"
+                  : "text-gray-500 group-hover:text-gray-800"
+              }
+            `}
+          />
+          {item.label}
+        </button>
+      ))}
+    </div>
+  </div>
+)
 }
 
 export default SideMenu

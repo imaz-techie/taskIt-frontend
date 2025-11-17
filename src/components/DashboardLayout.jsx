@@ -7,16 +7,23 @@ const DashboardLayout = ({ children, activeMenu }) => {
   const { currentUser } = useSelector((state) => state.user)
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar activeMenu={activeMenu} />
+    <div className="h-screen flex flex-col overflow-hidden">
+      {/* Navbar stays fixed */}
+      <div className="flex-none">
+        <Navbar activeMenu={activeMenu} />
+      </div>
 
       {currentUser && (
-        <div className="flex flex-1">
-          <div className="max-[1080px]:hidden">
+        <div className="flex flex-1 overflow-hidden">
+          {/* Left sidebar (fixed, no scroll) */}
+          <div className="w-64 max-[1080px]:hidden flex-none">
             <SideMenu activeMenu={activeMenu} />
           </div>
 
-          <div className="grow mx-5">{children}</div>
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto px-5 py-4">
+            {children}
+          </div>
         </div>
       )}
     </div>

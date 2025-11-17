@@ -13,6 +13,7 @@ import {
 } from "../../redux/slice/userSlice"
 import { signInApi } from "../../api/actions/authActions"
 
+
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -129,18 +130,16 @@ const handleSubmit = async (e) => {
               {error && <p className="text-red-500 text-sm">{error}</p>}
 
               {loading ? (
-                <span className="animate-pulse w-full text-center bg-blue-600 text-white">
-                  Loading...
-                </span>
+              <div className="flex justify-center py-3">
+              <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
               ) : (
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer"
-                  >
-                    LOGIN
-                  </button>
-                </div>
+              <button
+              type="submit"
+               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer"
+              >
+              LOGIN
+             </button>
               )}
             </form>
 

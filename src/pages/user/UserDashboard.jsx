@@ -8,7 +8,7 @@ import RecentTasks from "../../components/RecentTasks"
 import CustomPieChart from "../../components/CustomPieChart"
 import CustomBarChart from "../../components/CustomBarChart"
 
-const COLORS = ["#FF6384", "#36A2EB", "#FFCE56"]
+const COLORS = ["#FF6384", "#36A2EB", "#a64d79"]
 
 const UserDashboard = () => {
   const navigate = useNavigate()
@@ -63,7 +63,7 @@ const UserDashboard = () => {
   return (
     <DashboardLayout activeMenu={"Dashboard"}>
       <div className="p-6 space-y-6">
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl p-6 shadow-lg text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 shadow-lg text-white">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold">
@@ -87,7 +87,7 @@ const UserDashboard = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-500">
               <h3 className="text-gray-500 text-sm font-medium">
                 Pending Tasks
               </h3>
@@ -97,7 +97,7 @@ const UserDashboard = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
               <h3 className="text-gray-500 text-sm font-medium">
                 In Progress Tasks
               </h3>
@@ -107,7 +107,7 @@ const UserDashboard = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-500">
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
               <h3 className="text-gray-500 text-sm font-medium">
                 Completed Tasks
               </h3>

@@ -7,6 +7,10 @@ import { validateEmail } from "../../utils/helper"
 import ProfilePhotoSelector from "../../components/ProfilePhotoSelector"
 import axiosInstance from "../../utils/axioInstance"
 import uploadImage from "../../utils/uploadImage"
+import userImage from "/user-image.jpg"
+
+
+
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -20,55 +24,54 @@ const SignUp = () => {
   const [adminInviteToken, setAdminInviteToken] = useState("")
   const [showAdminInviteToken, setShowAdminInviteToken] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    let profileImageUrl = ""
+  let profileImageUrl = userImage;
 
-    if (!fullName) {
-      setError("Please enter the name")
-      return
+  if (!fullName) {
+    setError("Please enter the name");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    setError("Please enter a valid email address");
+    return;
+  }
+
+  if (!password) {
+    setError("Please enter the password");
+    return;
+  }
+
+  setError(null);
+
+  try {
+    // Upload only if user selected a picture
+    if (profilePic) {
+      const imageUploadRes = await uploadImage(profilePic);
+      profileImageUrl = imageUploadRes.imageUrl; // uploaded URL
     }
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address")
-      return
+    const response = await axiosInstance.post("/auth/sign-up", {
+      name: fullName,
+      email,
+      password,
+      profileImageUrl,
+      adminJoinCode: adminInviteToken,
+    });
+
+    if (response.data) {
+      navigate("/login");
     }
-
-    if (!password) {
-      setError("Please enter the password")
-      return
-    }
-
-    setError(null)
-
-    // SignUp API call
-    try {
-      // Upload profile picture if present
-      if (profilePic) {
-        const imageUploadRes = await uploadImage(profilePic)
-        profileImageUrl = imageUploadRes.imageUrl || ""
-      }
-
-      const response = await axiosInstance.post("/auth/sign-up", {
-        name: fullName,
-        email,
-        password,
-        profileImageUrl,
-        adminJoinCode: adminInviteToken,
-      })
-
-      if (response.data) {
-        navigate("/login")
-      }
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        setError(error.response.data.message)
-      } else {
-        setError("Something went wrong. Please try again!")
-      }
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      setError(error.response.data.message);
+    } else {
+      setError("Something went wrong. Please try again!");
     }
   }
+};
 
   return (
     <AuthLayout>
