@@ -15,11 +15,17 @@ export const SIDE_MENU_DATA = [
     path: "/admin/dashboard",
   },
   {
-    id: 2,
-    label: "Project",
-    icon: MdManageHistory,
-    path: "/admin/tasks",
+    id: 100, // NEW
+    label: "Projects",
+    icon: FiFolder,
+    path: "/admin/projects",
   },
+  // {
+  //   id: 2,
+  //   label: "Project",
+  //   icon: MdManageHistory,
+  //   path: "/admin/tasks",
+  // },
   {
     id: 3,
     label: "Create Task",
@@ -47,6 +53,12 @@ export const USER_SIDE_MENU_DATA = [
     icon: MdDashboardCustomize,
     path: "/user/dashboard",
   },
+  // {
+  //   id: 101, // NEW
+  //   label: "Projects",
+  //   icon: FiFolder,
+  //   path: "/user/projects",
+  // },
   {
     id: 2,
     label: "My Tasks",
