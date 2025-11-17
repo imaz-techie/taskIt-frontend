@@ -16,7 +16,7 @@ export const SIDE_MENU_DATA = [
   },
   {
     id: 2,
-    label: "Manage Task",
+    label: "Project",
     icon: MdManageHistory,
     path: "/admin/tasks",
   },
