@@ -22,7 +22,7 @@ export const SIDE_MENU_DATA = [
   },
   {
     id: 3,
-    label: "Create Task",
+    label: "Create Project",
     icon: MdAddTask,
     path: "/admin/create-task",
   },
