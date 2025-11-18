@@ -7,18 +7,25 @@ import toast from "react-hot-toast"
 
 const ManageUsers = () => {
   const [allUsers, setAllUsers] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const getAllUsers = async () => {
-    try {
-      const response = await axiosInstance.get("/users/get-users")
 
-      if (response.data?.length > 0) {
-        setAllUsers(response.data)
-      }
-    } catch (error) {
-      console.log("Error fetching users: ", error)
+ const getAllUsers = async () => {
+  try {
+    setLoading(true)
+
+    const response = await axiosInstance.get("/users/get-users")
+
+    if (response.data?.length > 0) {
+      setAllUsers(response.data)
     }
+  } catch (error) {
+    console.log("Error fetching users: ", error)
+  } finally {
+    setLoading(false)
   }
+}
+
 
   // const handleDownloadReport = async () => {
   //   try {
@@ -66,12 +73,18 @@ const ManageUsers = () => {
             Download Report
           </button> */}
         </div>
+{loading ? (
+  <div className="flex justify-center items-center py-20">
+    <div className="w-10 h-10 border-3 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+) : (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    {allUsers?.map((user) => (
+      <UserCard key={user._id} userInfo={user} />
+    ))}
+  </div>
+)}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allUsers?.map((user) => (
-            <UserCard key={user._id} userInfo={user} />
-          ))}
-        </div>
       </div>
     </DashboardLayout>
   )

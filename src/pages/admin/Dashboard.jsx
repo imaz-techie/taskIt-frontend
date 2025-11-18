@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout activeMenu={"Dashboard"}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6 space-y-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6 space-y-6 rounded-lg">
         {/* Welcome Header with Enhanced Gradient */}
         <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-2xl p-8 shadow-2xl">
           <div className="absolute inset-0 bg-black opacity-5"></div>

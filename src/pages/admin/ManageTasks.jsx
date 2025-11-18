@@ -11,37 +11,41 @@ const ManageTasks = () => {
   const [allTasks, setAllTasks] = useState([])
   const [tabs, setTabs] = useState("All")
   const [filterStatus, setFilterStatus] = useState("All")
+  const [loading, setLoading] = useState(true)
 
-  console.log(tabs)
 
   const navigate = useNavigate()
 
-  const getAllTasks = async () => {
-    try {
-      const response = await axiosInstance.get("/tasks", {
-        params: {
-          status: filterStatus === "All" ? "" : filterStatus,
-        },
-      })
+ const getAllTasks = async () => {
+  try {
+    setLoading(true)
 
-      if (response?.data) {
-        setAllTasks(response.data?.tasks?.length > 0 ? response.data.tasks : [])
-      }
+    const response = await axiosInstance.get("/tasks", {
+      params: {
+        status: filterStatus === "All" ? "" : filterStatus,
+      },
+    })
 
-      const statusSummary = response.data?.statusSummary || {}
-
-      const statusArray = [
-        { label: "All", count: statusSummary.all || 0 },
-        { label: "Pending", count: statusSummary.pendingTasks || 0 },
-        { label: "In Progress", count: statusSummary.inProgressTasks || 0 },
-        { label: "Completed", count: statusSummary.completedTasks || 0 },
-      ]
-
-      setTabs(statusArray)
-    } catch (error) {
-      console.log("Error fetching tasks: ", error)
+    if (response?.data) {
+      setAllTasks(response.data?.tasks?.length > 0 ? response.data.tasks : [])
     }
+
+    const statusSummary = response.data?.statusSummary || {}
+
+    const statusArray = [
+      { label: "All", count: statusSummary.all || 0 },
+      { label: "Pending", count: statusSummary.pendingTasks || 0 },
+      { label: "In Progress", count: statusSummary.inProgressTasks || 0 },
+      { label: "Completed", count: statusSummary.completedTasks || 0 },
+    ]
+
+    setTabs(statusArray)
+  } catch (error) {
+    console.log("Error fetching tasks: ", error)
+  } finally {
+    setLoading(false)
   }
+}
 
   const handleClick = (taskData) => {
     navigate("/admin/create-task", { state: { taskId: taskData._id } })
@@ -84,11 +88,11 @@ const ManageTasks = () => {
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
           <div className="flex items-center justify-between gap-4 w-full md:w-auto ">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              My Tasks
+              My Projects
             </h2>
 
             <button
-              className="md:hidden px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium shadow-sm hover:shadow-md cursor-pointer"
+              className="md:hidden px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-lg transition-colors duration-200 font-medium shadow-sm hover:shadow-md cursor-pointer"
               onClick={handleDownloadReport}
               type="button"
             >
@@ -105,7 +109,7 @@ const ManageTasks = () => {
               />
 
               <button
-                className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 cursor-pointer"
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 cursor-pointer"
                 onClick={handleDownloadReport}
                 type="button"
               >
@@ -116,25 +120,32 @@ const ManageTasks = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allTasks?.map((item, index) => (
-            <TaskCard
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              priority={item.priority}
-              status={item.status}
-              progress={item.progress}
-              createdAt={item.createdAt}
-              dueDate={item.dueDate}
-              assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
-              attachmentCount={item.attachments?.length || 0}
-              completedTodoCount={item.completedTodoCount || 0}
-              todoChecklist={item.todoChecklist || []}
-              onClick={() => handleClick(item)}
-            />
-          ))}
-        </div>
+       {loading ? (
+  <div className="flex justify-center items-center py-20">
+    <div className="w-10 h-10 border-3 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+) : (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    {allTasks?.map((item) => (
+      <TaskCard
+        key={item._id}
+        title={item.title}
+        description={item.description}
+        priority={item.priority}
+        status={item.status}
+        progress={item.progress}
+        createdAt={item.createdAt}
+        dueDate={item.dueDate}
+        assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
+        attachmentCount={item.attachments?.length || 0}
+        completedTodoCount={item.completedCount || 0}
+        todoChecklist={item.todoChecklist || []}
+        onClick={() => handleClick(item)}
+      />
+    ))}
+  </div>
+)}
+
       </div>
     </DashboardLayout>
   )
