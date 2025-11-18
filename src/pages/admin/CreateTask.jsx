@@ -199,12 +199,12 @@ const CreateTask = () => {
   }, [taskId])
 
   return (
-    <DashboardLayout activeMenu={"Create Task"}>
+    <DashboardLayout activeMenu={"Create Project"}>
       <div className="p-6">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">
-              {taskId ? "Update Task" : "Create New Task"}
+              {taskId ? "Update Project" : "Create New Project"}
             </h2>
 
             {taskId && (
@@ -212,7 +212,7 @@ const CreateTask = () => {
                 className="flex items-center gap-2 text-red-600 hover:text-red-800"
                 onClick={() => setOpenDeleteAlert(true)}
               >
-                <MdDelete className="text-lg" /> Delete Task
+                <MdDelete className="text-lg" /> Delete Project
               </button>
             )}
           </div>
@@ -227,7 +227,7 @@ const CreateTask = () => {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Task Title <span className="text-red-500">*</span>
+                  Project Title <span className="text-red-500">*</span>
                 </label>
 
                 <input

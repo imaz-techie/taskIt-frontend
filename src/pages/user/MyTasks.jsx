@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react"
-import DashboardLayout from "../../components/DashboardLayout"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axiosInstance from "../../utils/axioInstance"
-import TaskStatusTabs from "../../components/TaskStatusTabs"
-import { FaFileLines } from "react-icons/fa6"
+import DashboardLayout from "../../components/DashboardLayout"
 import TaskCard from "../../components/TaskCard"
-import toast from "react-hot-toast"
+import TaskStatusTabs from "../../components/TaskStatusTabs"
+import axiosInstance from "../../utils/axioInstance"
 
 const MyTask = () => {
   const [allTasks, setAllTasks] = useState([])
@@ -16,13 +14,14 @@ const MyTask = () => {
     { label: "Completed", count: 0 },
   ])
   const [filterStatus, setFilterStatus] = useState("All")
-
-  // console.log(tabs)
+  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
 
   const getAllTasks = async () => {
     try {
+      setLoading(true)
+
       const response = await axiosInstance.get("/tasks", {
         params: {
           status: filterStatus === "All" ? "" : filterStatus,
@@ -43,6 +42,8 @@ const MyTask = () => {
       ])
     } catch (error) {
       console.log("Error fetching tasks: ", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -52,8 +53,6 @@ const MyTask = () => {
 
   useEffect(() => {
     getAllTasks(filterStatus)
-
-    return () => {}
   }, [filterStatus])
 
   return (
@@ -75,35 +74,42 @@ const MyTask = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allTasks?.length > 0 ? (
-            allTasks?.map((item, index) => (
-              <TaskCard
-                key={item._id}
-                title={item.title}
-                description={item.description}
-                priority={item.priority}
-                status={item.status}
-                progress={item.progress}
-                createdAt={item.createdAt}
-                dueDate={item.dueDate}
-                assignedTo={item.assignedTo?.map(
-                  (item) => item.profileImageUrl
-                )}
-                attachmentCount={item.attachments?.length || 0}
-                completedTodoCount={item.completedCount || 0}
-                todoChecklist={item.todoChecklist || []}
-                onClick={() => handleClick(item._id)}
-              />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-10">
-              <p className="text-gray-500">
-                No tasks found. Create a new task to get started.
-              </p>
-            </div>
-          )}
-        </div>
+        {/* ====================== LOADER ====================== */}
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            {allTasks?.length > 0 ? (
+              allTasks?.map((item) => (
+                <TaskCard
+                  key={item._id}
+                  title={item.title}
+                  description={item.description}
+                  priority={item.priority}
+                  status={item.status}
+                  progress={item.progress}
+                  createdAt={item.createdAt}
+                  dueDate={item.dueDate}
+                  assignedTo={item.assignedTo?.map(
+                    (item) => item.profileImageUrl
+                  )}
+                  attachmentCount={item.attachments?.length || 0}
+                  completedTodoCount={item.completedCount || 0}
+                  todoChecklist={item.todoChecklist || []}
+                  onClick={() => handleClick(item._id)}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-10">
+                <p className="text-gray-500">
+                  No tasks found. Create a new task to get started.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </DashboardLayout>
   )
