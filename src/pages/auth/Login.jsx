@@ -1,17 +1,16 @@
-import React, { useState } from "react"
-import AuthLayout from "../../components/AuthLayout"
-import { FaEyeSlash, FaPeopleGroup } from "react-icons/fa6"
+import { useState } from "react"
 import { FaEye } from "react-icons/fa"
-import { Link, useNavigate } from "react-router-dom"
-import { validateEmail } from "../../utils/helper"
-import axiosInstance from "../../utils/axioInstance"
+import { FaEyeSlash, FaPeopleGroup } from "react-icons/fa6"
 import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { signInApi } from "../../api/actions/authActions"
+import AuthLayout from "../../components/AuthLayout"
 import {
   signInFailure,
   signInStart,
   signInSuccess,
 } from "../../redux/slice/userSlice"
-import { signInApi } from "../../api/actions/authActions"
+import { validateEmail } from "../../utils/helper"
 
 
 const Login = () => {
@@ -57,14 +56,14 @@ const handleSubmit = async (e) => {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
           {/* Gradient top border */}
-          <div className="h-2 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+          <div className="h-2 bg-gradient-to-r from-indigo-600 to-purple-600"></div>
 
           <div className="p-8">
             {/* Logo and title */}
             <div className="text-center mb-8">
               <div className="flex justify-center">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <FaPeopleGroup className="text-4xl text-blue-600" />
+                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-3 rounded-full">
+                  <FaPeopleGroup className="text-4xl text-blue-50" />
                 </div>
               </div>
 
@@ -136,7 +135,7 @@ const handleSubmit = async (e) => {
               ) : (
               <button
               type="submit"
-               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer"
+               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer"
               >
               LOGIN
              </button>

@@ -1,4 +1,5 @@
 import React from "react"
+import loginImg from "../../public/login.jpg"
 
 const AuthLayout = ({ children }) => {
   return (
@@ -13,7 +14,7 @@ const AuthLayout = ({ children }) => {
 
       <div className="hidden md:block w-1/2">
         <img
-          src="https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg"
+          src={loginImg}
           alt="Login background"
           className="h-full w-full object-cover"
         />

@@ -83,7 +83,7 @@ const ManageTasks = () => {
   }, [filterStatus])
 
   return (
-    <DashboardLayout activeMenu={"Manage Task"}>
+    <DashboardLayout activeMenu={"Project"}>
       <div className="my-6 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
           <div className="flex items-center justify-between gap-4 w-full md:w-auto ">
@@ -120,23 +120,51 @@ const ManageTasks = () => {
           )}
         </div>
 
-       {loading ? (
+{loading ? (
   <div className="flex justify-center items-center py-20">
     <div className="w-10 h-10 border-3 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
   </div>
+) : allTasks.length === 0 ? (
+  <div className="flex flex-col items-center justify-center py-20 text-center text-gray-500">
+    
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/4076/4076505.png"
+      alt="no-tasks"
+      className="w-24 h-24 opacity-60"
+    />
+
+    <p className="text-lg font-semibold mt-4">No tasks found</p>
+    <p className="text-sm mt-1 mb-6">Try selecting a different filter.</p>
+
+    {/* 🔙 Back Button */}
+    <button
+      onClick={() => setFilterStatus("All")}
+      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
+                 rounded-lg shadow-md hover:bg-indigo-700 transition-all 
+                 duration-200 active:scale-95"
+    >
+      ← Back to Tasks
+    </button>
+
+  </div>
 ) : (
+
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-    {allTasks?.map((item) => (
+    {allTasks.map((item) => (
       <TaskCard
         key={item._id}
         title={item.title}
         description={item.description}
         priority={item.priority}
         status={item.status}
-        progress={item.progress}
+        progress={
+          item.todoChecklist?.length > 0
+            ? Math.round((item.completedCount / item.todoChecklist.length) * 100)
+            : 0
+        }
         createdAt={item.createdAt}
         dueDate={item.dueDate}
-        assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
+        assignedTo={item.assignedTo?.map((i) => i.profileImageUrl)}
         attachmentCount={item.attachments?.length || 0}
         completedTodoCount={item.completedCount || 0}
         todoChecklist={item.todoChecklist || []}

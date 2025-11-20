@@ -76,31 +76,32 @@ const SideMenu = ({ activeMenu }) => {
     {/* Menu Section */}
     <div className="flex-1 overflow-y-auto space-y-2">
       {SideMenuData.map((item, index) => (
-        <button
-          key={`menu_${index}`}
-          onClick={() => handleClick(item.path)}
-          className={`
-            w-full flex items-center gap-4 text-[15px] font-medium px-5 py-3 rounded-lg
-            transition-all duration-300 ease-in-out
-            ${
-              activeMenu === item.label
-                ? "bg-blue-100 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-sm"
-                : "text-gray-600 hover:bg-gray-100 hover:shadow-sm hover:text-gray-900"
-            }
-          `}
-        >
-          <item.icon
-            className={`
-              text-xl transition-all duration-300
-              ${
-                activeMenu === item.label
-                  ? "text-blue-600"
-                  : "text-gray-500 group-hover:text-gray-800"
-              }
-            `}
-          />
-          {item.label}
-        </button>
+     <button
+  key={`menu_${index}`}
+  onClick={() => handleClick(item.path)}
+  className={`
+    w-full flex items-center gap-4 text-[15px] font-medium px-5 py-3 rounded-lg
+    transition-all duration-300 ease-in-out
+    ${
+      activeMenu === item.label
+        ? "bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-sm"
+        : "text-gray-600 hover:bg-gray-100 hover:shadow-sm hover:text-gray-900"
+    }
+  `}
+>
+  <item.icon
+    className={`
+      text-xl transition-all duration-300
+      ${
+        activeMenu === item.label
+          ? "text-white"
+          : "text-gray-500"
+      }
+    `}
+  />
+  {item.label}
+</button>
+
       ))}
     </div>
   </div>

@@ -202,20 +202,36 @@ const CreateTask = () => {
     <DashboardLayout activeMenu={"Create Project"}>
       <div className="p-6">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">
-              {taskId ? "Update Project" : "Create New Project"}
-            </h2>
+       <div className="flex justify-between items-center mb-6">
 
-            {taskId && (
-              <button
-                className="flex items-center gap-2 text-red-600 hover:text-red-800"
-                onClick={() => setOpenDeleteAlert(true)}
-              >
-                <MdDelete className="text-lg" /> Delete Project
-              </button>
-            )}
-          </div>
+  {/* 🔙 Back Button — show only in Update mode */}
+  {taskId && (
+    <button
+      onClick={() => navigate("/admin/tasks")}
+      className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 
+                 transition-all duration-200 font-medium group"
+    >
+      <span className="text-xl group-hover:-translate-x-1 transition-transform">
+        ←
+      </span>
+      Back
+    </button>
+  )}
+
+  <h2 className="text-2xl font-bold text-gray-800">
+    {taskId ? "Update Project" : "Create New Project"}
+  </h2>
+
+  {taskId && (
+    <button
+      className="flex items-center gap-2 text-red-600 hover:text-red-800"
+      onClick={() => setOpenDeleteAlert(true)}
+    >
+      <MdDelete className="text-lg" /> Delete Project
+    </button>
+  )}
+</div>
+
 
           {error && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">

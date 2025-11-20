@@ -83,7 +83,7 @@ const Dashboard = () => {
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
                 <span className="relative flex items-center gap-2">
-                  <span className="text-xl">+</span> Create New Task
+                  <span className="text-xl">+</span> Create Project
                 </span>
               </button>
             </div>
